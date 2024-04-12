@@ -13,7 +13,7 @@ class Income_Category extends Model
     protected $table = 'income_categories';
     public function incomes(): HasMany
     {
-        return $this->hasMany(Income::class);
+        return $this->hasMany(Income::class, "income_category_id");
     }
     public function getCreatedAtAttribute($value)
     {

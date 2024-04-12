@@ -15,7 +15,7 @@ class Cost_Category extends Model
 
     public function costs(): HasMany
     {
-        return $this->hasMany(Cost::class);
+        return $this->hasMany(Cost::class, "cost_category_id");
     }
     public function getCreatedAtAttribute($value)
     {

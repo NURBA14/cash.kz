@@ -14,7 +14,7 @@ class Saving_Category extends Model
 
     public function savings(): HasMany
     {
-        return $this->hasMany(Saving::class);
+        return $this->hasMany(Saving::class, "saving_category_id", "id");
     }
     public function getCreatedAtAttribute($value)
     {
