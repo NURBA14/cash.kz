@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Auth;
 
 class CostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(["auth:sanctum"])->only(["store", "update", "destroy"]);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -27,8 +31,6 @@ class CostController extends Controller
      */
     public function store(CostStoreRequest $request)
     {
-        // TODO User login
-        Auth::login(User::inRandomOrder()->first());
         $cost = Auth::user()->costs()->create([
             "sum" => $request->validated("sum"),
             "comment" => $request->validated("comment"),

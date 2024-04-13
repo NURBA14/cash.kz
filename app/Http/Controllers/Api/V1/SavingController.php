@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Auth;
 
 class SavingController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(["auth:sanctum"])->only(["store", "update", "destroy"]);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -27,8 +32,6 @@ class SavingController extends Controller
      */
     public function store(SavingStoreRequest $request)
     {
-        // TODO User login
-        Auth::login(User::inRandomOrder()->first());
         $saving = Auth::user()->savings()->create([
             "sum" => $request->validated("sum"),
             "comment" => $request->validated("comment"),
@@ -64,6 +67,6 @@ class SavingController extends Controller
     public function destroy(Saving $saving)
     {
         $saving->delete();
-        return response()->json(["message" => "success"], 200);   
+        return response()->json(["message" => "success"], 200);
     }
 }

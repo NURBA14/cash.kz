@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Auth;
 
 class IncomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(["auth:sanctum"])->only(["store", "update", "destroy"]);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -27,8 +31,6 @@ class IncomeController extends Controller
      */
     public function store(IncomeStoreRequest $request)
     {
-        // TODO User login
-        Auth::login(User::inRandomOrder()->first());
         $income = Auth::user()->incomes()->create([
             "sum" => $request->validated("sum"),
             "comment" => $request->validated("comment"),
