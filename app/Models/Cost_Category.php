@@ -12,6 +12,9 @@ class Cost_Category extends Model
     use HasFactory;
 
     protected $table = 'cost_categories';
+    protected $fillable = [
+        "name", "description"
+    ];
 
     public function costs(): HasMany
     {

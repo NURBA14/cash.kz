@@ -11,6 +11,9 @@ class Saving extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "sum", "saving_category_id", "comment"
+    ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

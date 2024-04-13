@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\SavingCategory\SavingCategoryStoreRequest;
 use App\Http\Resources\Api\V1\SavingCategory\SavingCategoryIndexResource;
 use App\Http\Resources\Api\V1\SavingCategory\SavingCategoryShowResource;
 use App\Models\Saving_Category;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SavingCategoryController extends Controller
 {
@@ -21,9 +24,13 @@ class SavingCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SavingCategoryStoreRequest $request)
     {
-        //
+        $saving_category = Saving_Category::create([
+            "name" => $request->validated("name"),
+            "description" => $request->validated("description"),
+        ]);
+        return response()->json(["saving_category" => new SavingCategoryShowResource($saving_category)]);   
     }
 
     /**

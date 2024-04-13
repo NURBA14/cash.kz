@@ -20,7 +20,7 @@ class IncomeCategoryShowRecource extends JsonResource
             "description" => $this->description,
             "created_at" => $this->created_at,
             "savings_count" => $this->incomes->count(),
-            "savings" => IncomeCategoryIncomesListRecource::collection($this->incomes)
+            "incomes" => IncomeCategoryIncomesListRecource::collection($this->incomes)
         ];
     }
 }

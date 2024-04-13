@@ -11,6 +11,9 @@ class Saving_Category extends Model
 {
     use HasFactory;
     protected $table = 'saving_categories';
+    protected $fillable = [
+        "name", "description"
+    ];
 
     public function savings(): HasMany
     {

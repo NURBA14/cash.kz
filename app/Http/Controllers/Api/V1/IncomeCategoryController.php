@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\V1\IncomeCategory\IncomeCategoryStoreRequest;
 use App\Http\Resources\Api\V1\IncomeCategory\IncomeCategoryIndexResource;
 use App\Http\Resources\Api\V1\IncomeCategory\IncomeCategoryShowRecource;
 use App\Models\Income_Category;
@@ -21,9 +22,13 @@ class IncomeCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(IncomeCategoryStoreRequest $request)
     {
-        //
+        $income_category = Income_Category::create([
+            "name" => $request->validated("name"),
+            "description" => $request->validated("description")
+        ]);
+        return response()->json(["income_category" => new IncomeCategoryShowRecource($income_category)]);
     }
 
     /**

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId("user_id")->constrained()->cascadeOnDelete();
             $table->foreignId("saving_category_id");
             $table->bigInteger("sum")->unsigned();
-            $table->text("comment");
+            $table->text("comment")->nullable();
             $table->timestamps();
         });
     }
