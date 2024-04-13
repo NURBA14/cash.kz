@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\SavingCategory\SavingCategoryStoreRequest;
+use App\Http\Requests\Api\V1\SavingCategory\SavingCategoryUpdateRequest;
 use App\Http\Resources\Api\V1\SavingCategory\SavingCategoryIndexResource;
 use App\Http\Resources\Api\V1\SavingCategory\SavingCategoryShowResource;
 use App\Models\Saving_Category;
@@ -30,7 +31,7 @@ class SavingCategoryController extends Controller
             "name" => $request->validated("name"),
             "description" => $request->validated("description"),
         ]);
-        return response()->json(["saving_category" => new SavingCategoryShowResource($saving_category)]);   
+        return response()->json(["saving_category" => new SavingCategoryShowResource($saving_category)], 201);   
     }
 
     /**
@@ -44,16 +45,24 @@ class SavingCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SavingCategoryUpdateRequest $request, Saving_Category $saving_category)
     {
-        //
+        $saving_category->update([
+            "name" => $request->validated("name"),
+            "description" => $request->validated("description")
+        ]);
+        return response()->json(["saving_category" => new SavingCategoryShowResource($saving_category)]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Saving_Category $saving_category)
     {
-        //
+        if($saving_category->savings()->count()){
+            return response()->json(["message" => "This category has Savings"], 200);
+        }
+        $saving_category->delete();
+        return response()->json(["message" => "success"], 200);
     }
 }

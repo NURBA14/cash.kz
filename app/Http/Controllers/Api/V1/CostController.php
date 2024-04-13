@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\Cost\CostStoreRequest;
+use App\Http\Requests\Api\V1\Cost\CostUpdateRequest;
 use App\Http\Resources\Api\V1\Cost\CostIndexResource;
 use App\Http\Resources\Api\V1\Cost\CostShowResource;
 use App\Models\Cost;
@@ -47,16 +48,22 @@ class CostController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CostUpdateRequest $request, Cost $cost)
     {
-        //
+        $cost->update([
+            "sum" => $request->validated("sum"),
+            "comment" => $request->validated("comment"),
+            "cost_category_id" => $request->validated("cost_category_id")
+        ]);
+        return response()->json(["cost" => new CostShowResource($cost)]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Cost $cost)
     {
-        //
+        $cost->delete();
+        return response()->json(["message" => "success"], 200);
     }
 }

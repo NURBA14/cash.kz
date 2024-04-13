@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\V1\IncomeCategory\IncomeCategoryStoreRequest;
+use App\Http\Requests\Api\V1\IncomeCategory\IncomeCategoryUpdateRequest;
 use App\Http\Resources\Api\V1\IncomeCategory\IncomeCategoryIndexResource;
 use App\Http\Resources\Api\V1\IncomeCategory\IncomeCategoryShowRecource;
 use App\Models\Income_Category;
@@ -28,7 +29,7 @@ class IncomeCategoryController extends Controller
             "name" => $request->validated("name"),
             "description" => $request->validated("description")
         ]);
-        return response()->json(["income_category" => new IncomeCategoryShowRecource($income_category)]);
+        return response()->json(["income_category" => new IncomeCategoryShowRecource($income_category)], 201);
     }
 
     /**
@@ -42,16 +43,24 @@ class IncomeCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(IncomeCategoryUpdateRequest $request, Income_Category $income_category)
     {
-        //
+        $income_category->update([
+            "name" => $request->validated("name"),
+            "description" => $request->validated("description")
+        ]);
+        return response()->json(["income_category" => new IncomeCategoryShowRecource($income_category)]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Income_Category $income_category)
     {
-        //
+        if($income_category->incomes()->count()){
+            return response()->json(["message" => "This category has incomes"], 200);
+        }
+        $income_category->delete();
+        return response()->json(["message" => "success"], 200);
     }
 }
