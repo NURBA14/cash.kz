@@ -20,7 +20,7 @@ class IncomeCategoryIncomesListRecource extends JsonResource
             "comment" => $this->comment,
             "user" => [
                 "id" => $this->user->id,
-                "name" => $this->user->login,
+                "login" => $this->user->login,
             ],
             "date" => $this->created_at
         ];

@@ -15,11 +15,12 @@ class UserController extends Controller
     {
         $login = $request->validated("login");
         $password = $request->validated("password");
-        if (!Auth::attempt(["login" => $login, "password" => $password])) {
+        if(!Auth::guard("web")->attempt(["login" => $login, "password" => $password])){
             return response()->json(["message" => "Incorrect Login or Password"], 401);
         }
-        $token = $request->user()->createToken("login");
-        return response()->json(["token" => $token->plainTextToken], 200);
+        $user = Auth::guard("web")->user();
+        $token = $user->createToken("login");
+        return response()->json(["token" => $token->plainTextToken]);
     }
 
     public function register(UserRegisterRequest $request)
@@ -29,8 +30,7 @@ class UserController extends Controller
             "email" => $request->validated("email"),
             "password" => bcrypt($request->validated("password"))
         ]);
-        Auth::login($user);
-        $token = $request->user()->createToken("login");
+        $token = $user->createToken("login");
         return response()->json([
             "message" => "You are registered",
             "token" => $token->plainTextToken

@@ -21,7 +21,7 @@ class CostShowResource extends JsonResource
             "cost_category" => $this->cost_category->name,
             "user" => [
                 "id" => $this->user->id,
-                "name" => $this->user->login,
+                "login" => $this->user->login,
             ],
             "date" => $this->created_at
         ];

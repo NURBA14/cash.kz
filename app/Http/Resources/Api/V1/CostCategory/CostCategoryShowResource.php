@@ -19,7 +19,7 @@ class CostCategoryShowResource extends JsonResource
             "name" => $this->name,
             "description" => $this->description,
             "created_at" => $this->created_at,
-            "savings_count" => $this->costs->count(),
+            "costs_count" => $this->costs->count(),
             "costs" => CostCategoryCostsListResource::collection($this->costs)
         ];
     }

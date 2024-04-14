@@ -21,7 +21,7 @@ class IncomeIndexResource extends JsonResource
             "income_category" => $this->income_category->name,
             "user" => [
                 "id" => $this->user->id,
-                "name" => $this->user->login,
+                "login" => $this->user->login,
             ],
             "date" => $this->created_at
         ];
